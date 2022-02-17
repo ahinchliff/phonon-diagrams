@@ -1,0 +1,4 @@
+User / Terminal - request redeem phonon -> Phonon Card
+Phonon Card - delete phonon -> Phonon Card
+Phonon Card -. private key key -> User / Terminal
+User / Terminal - securely store private key or send crypto asset to another address  -> User / Terminal

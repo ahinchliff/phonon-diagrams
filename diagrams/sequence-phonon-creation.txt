@@ -1,0 +1,7 @@
+Terminal - request new phonon -> Phonon Card
+Phonon Card - generate key pair -> Phonon Card
+Phonon Card -. public key -> Terminal
+Terminal - derive address for crypto asset from public key -> Terminal
+Terminal - transfer crypto asset to derived address -> Blockchain
+Blockchain -. transaction confirmation -> Terminal
+Terminal - set phonon metadata (amount, chain etc)  -> Phonon Card

@@ -1,0 +1,15 @@
+Sender's Phonon Card
+Sender's Terminal 
+Sender's Terminal - send phonon metadata ->Receiver's Terminal
+Receiver's Terminal- derive address for crypto asset from public key in phonon metadata -> Receiver's Terminal
+Receiver's Phonon Card
+Receiver's Terminal - request balance of derived address -> Blockchain
+Blockchain -. balance -> Receiver's Terminal
+Receiver's Terminal- confirm balance matches value in phonon metadata -> Receiver's Terminal
+Receiver's Terminal -. receiver's card's public key ->Sender's Terminal
+Sender's Terminal - construct transaction -> Sender's Phonon Card
+Sender's Phonon Card- encrypt phonon with receiver's card's public key -> Sender's Phonon Card
+Sender's Phonon Card- delete phonon -> Sender's Phonon Card
+Sender's Phonon Card-. phonon -> Sender's Terminal
+Sender's Terminal - send phonon ->Receiver's Terminal
+Receiver's Terminal- save phonon -> Receiver's Phonon Card
