@@ -45,8 +45,8 @@ User Client - request connection to client -> Vendor Client
 Vendor Client - connect to user -> User Client
 User Client - request purchase -> Vendor Client
 Vendor Client - request proof -> User Client
-User Client - get attestation(s) for phonons -> User Client
-User Client - send attestation(s) -> Vendor Client
+User Client - get attestation(s) for each @info phonon -> User Client
+User Client - send attestation(s) and corresponding @info packets -> Vendor Client
 Vendor Client - verify attestation(s) -> Vendor Client
 Vendor Client - request attested phonons -> User Client
 User Client - send attested phonons -> Vendor Client
