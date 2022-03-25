@@ -21,7 +21,7 @@ Rocket Pool Client - connect to user -> User Client
 //			ID:note			  (ERC721)
 //		}
 //	}
-User Client -. send @info -> Rocket Pool Client
+User Client -. relay phonon meta data @info -> Rocket Pool Client
 User Client - send native phonon payment -> Rocket Pool Client
 
 // Multiple confirmations increases reliability potentially
