@@ -13,7 +13,7 @@ Rocket Pool Client - connect to user -> User Client
 
 // @Info: {
 //	Address: Derived Chain-Specfic Public Address
-// 		KeyIndex: Phonon Index
+// 		PhononPubKey: PhononPubKey
 //		Denomination: Quantity
 // 		CurrencyType: ETH | ERC20 | ERC721
 //		Tags: {
