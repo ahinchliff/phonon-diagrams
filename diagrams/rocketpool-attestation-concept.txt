@@ -3,6 +3,8 @@
 // Requesting and paying node operators on Rocket Pool Network
 // to verify the balance of a phonon filled with ethereum assets
 
+Vendor Client
+
 User Client - request connection to client-> Rocket Pool Client
 
 // Definitely don't want to get spammed by some client
@@ -23,14 +25,29 @@ User Client -. send @info -> Rocket Pool Client
 User Client - send native phonon payment -> Rocket Pool Client
 
 // Multiple confirmations increases reliability potentially
-Rocket Pool Client - request x confirmations -> Rocket Pool Network
+Rocket Pool Client -. request x confirmations -> Rocket Pool Network
 Rocket Pool Network - listening - Rocket Pool Node
 Rocket Pool Node - verify @info balance -> Rocket Pool Node
 Rocket Pool Node - send verification -> Rocket Pool Client
-Rocket Pool Client -.  ping progress update -> User Client
+Rocket Pool Client -  ping progress update -> User Client
 Rocket Pool Client - wait for x confirmations -> Rocket Pool Client
 
 // Attestation signs across @info
 Rocket Pool Client - send attestation -> User Client
 
 Rocket Pool Client -.  share rewards over time -> Rocket Pool Node
+
+User Client - someday in the future - User Client
+
+
+// Later ... step through purchase with a vendor
+User Client - request connection to client -> Vendor Client
+Vendor Client - connect to user -> User Client
+User Client - request purchase -> Vendor Client
+Vendor Client - request proof -> User Client
+User Client - get attestation(s) for phonons -> User Client
+User Client - send attestation(s) -> Vendor Client
+Vendor Client - verify attestation(s) -> Vendor Client
+Vendor Client - request attested phonons -> User Client
+User Client - send attested phonons -> Vendor Client
+Vendor Client - send receipt -> User Client
