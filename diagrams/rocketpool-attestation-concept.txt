@@ -1,0 +1,36 @@
+// Rocket Pool Attestation of Phonons Concept
+//
+// Requesting and paying node operators on Rocket Pool Network
+// to verify the balance of a phonon filled with ethereum assets
+
+User Client - request connection to client-> Rocket Pool Client
+
+// Definitely don't want to get spammed by some client
+Rocket Pool Client - consider user reputation-> Rocket Pool Client
+Rocket Pool Client - connect to user -> User Client
+
+// @Info: {
+//	Address: Derived Chain-Specfic Public Address
+// 		KeyIndex: Phonon Index
+//		Denomination: Quantity
+// 		CurrencyType: ETH | ERC20 | ERC721
+//		Tags: {
+//			ContractAddress:  (ERC20, ERC721)
+//			ID:note			  (ERC721)
+//		}
+//	}
+User Client -. send @info -> Rocket Pool Client
+User Client - send native phonon payment -> Rocket Pool Client
+
+// Multiple confirmations increases reliability potentially
+Rocket Pool Client - request x confirmations -> Rocket Pool Network
+Rocket Pool Network - listening - Rocket Pool Node
+Rocket Pool Node - verify @info balance -> Rocket Pool Node
+Rocket Pool Node - send verification -> Rocket Pool Client
+Rocket Pool Client -.  ping progress update -> User Client
+Rocket Pool Client - wait for x confirmations -> Rocket Pool Client
+
+// Attestation signs across @info
+Rocket Pool Client - send attestation -> User Client
+
+Rocket Pool Client -.  share rewards over time -> Rocket Pool Node
