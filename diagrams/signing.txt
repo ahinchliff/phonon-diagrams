@@ -1,0 +1,5 @@
+
+Sender - creates phonon -> Sender
+ODAO Member -. signs deposit data root -> Contract A
+ODAO Member - transfers phonon -> Node Operator
+Node Operator -.
