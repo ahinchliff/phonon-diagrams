@@ -1,4 +1,4 @@
-# One Directional Phonon Transfers
+# Posted Phonons: *One Directional Phonon Transfers*
 
 ## Goal
 
@@ -20,9 +20,34 @@ We all agree the following must be true for any design to work:
 
 ## Overview of a possible solution
 
-- Add to the protocol the concept of a "one directional" transfer packet which will contain an integer nonce and a time to live (ttl)
-- Add ability for phonon cards to consume "one directional" transfer packets if a packet is signed for that card and the packet has a nonce > the card's "one directional" nonce
-- A service outside of the protocol is responsible for providing senders with the details required to create a "one directional" transfer packet for a receiver (receiver's card's public key, nonce, ttl). The same service would also be required to validate incoming transfer packets and to store these packets until the receiver is ready to consume them. The service should not allow a user to consume a transfer packets if there exists a lower nonce with a live ttl.
+### Protocol
+- Add to the protocol an *integer nonce* which exists globally on the card.  Initialize to zero.
+
+- Add to the protocol a method that **transfers** a phonon *from* a card *to* a "Posted Phonon" packet. A "Posted Phonon" packet is a phonon that exists outside of a phonon card (can be posted to servers, websites, etc), but has the following additional features:
+  - Contains an integer nonce
+  - Can only be collected by a known and singular receiving card (signs by public key)
+
+- Add to the protocol a method that **collects** a "Posted Phonon".
+  - The method rejects and disallows the consumption of a "Posted Phonon" packet if:
+    1. The packet is not signed for the receiving card
+    2. The packet's integer nonce > the card's integer nonce  
+  - If successful, the card's integer nonce *is set* to the packet's integer nonce value
+
+### Client
+- Add to the client a check that prevents the sender from executing the above *transfer* method from executing if TTL (time to live) is breached.  (Note: we could move this to the protocol but then the TTL threshold must be defined and hard coded)
+
+### Service
+- Card holders who want/need to collect "Posted Phonons" enlist the support of a service to:
+  - Provide senders the details required to create a "Posted Phonon" packet:
+    1. Receiver's card's public key
+    2. Nonce - Increments by 1.  
+    3. TTL - time to live
+  - Validate incoming transfer packets (asset value)
+  - Store the packets until the receiver is ready to consume them.
+    1. The service should prevent a receiving card from consuming a "Posted Phonon" whose nonce is greater than a nonce for an outstanding request packet with a live TTL.
+    2. The service sorts "Posted Phonons" in ascending FIFO order for consumption, so that the receiving card consumes packets with lower integers first.
+- When a receiving card establishes/changes service providers, it provides the service the value of its card's integer nonce.  
+
 
 ## Example Process Flows
 
@@ -53,24 +78,25 @@ Failure
 5. User A creates a phonon transfer packet and posts it to the store over HTTP.
 6. The store's card attempts to consume User A's transfer packet but it is rejected as the nonce is too low.
 
+Failure Prevention
+
+1. User A sends an order request and the store responses with a nonce of 1 and a expiry date for that nonce
+2. User B sends an order request and the store responses with a once of 2 and an expiry date for that nonce
+3. User B creates a phonon transfer packet and posts it to the store over HTTP
+4. The store waits for the nonce it sent to User A to expire. The store's card consumes User B's phonon transfer packet and increments its nonce to 2.
+5. User A is prevented from creating a phonon transfer packet because TTL has expired; and has no packet to post.
+
+Success
+1. User A sends an order request and the store responses with a nonce of 1 and a expiry date for that nonce
+2. User B sends an order request and the store responses with a once of 2 and an expiry date for that nonce
+3. User B creates a phonon transfer packet and posts it to the store over HTTP
+4. User A creates a phonon transfer packet and posts it to the store over HTTP
+5. The stored phonon transfer packets are stored and sorted by nonce
+5. The store's card consumes User A's phonon transfer packet and increments its nonce to 1.
+6. The store's card consumes User B's phonon transfer packet and increments its nonce to 2.
+
+
 ## Questions
 
-1. Will the service receiving the phonon transfer packets be able to validate a phonos content and that it comes from a valid phonon card?
+1. Will the service receiving the phonon transfer packets be able to validate a phonons content and that it comes from a valid phonon card?
 2. Are there any attack vectors outside your typical web service attacks?
-
-## Implementation Notes
-
-Assume the following about posted one directional phonons:
-
-1. Must be submitted with a `receiptID` expressed as an integer
-
-Add the following features to the `card APDU`:
-
-1. Allot space on the card (not within each phonon but at the card level) to store an `integer`, and name it something like `lastReceipt` or `witnessedReceipt` or `receiptWatcher` or `receiptTracker`. Initialize this attribute to `0`.
-
-2. Add a new APDU method and call it `ReceiveOfflinePhonons`:
-
-- It can consume a one directional offline phonon that has been posted by a sender
-- It expects a `receiptID` in the offline phonon
-- It sets the `receiptWatcher` to the value of the `receiptID` after consuming the offline phonon
-- **BUT** it will **NOT** allow an offline phonon to be processed if its `receiptID` is <= the `receiptWatcher`.
