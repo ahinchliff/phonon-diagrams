@@ -30,9 +30,46 @@ Picture a coffee shop: one vendor who serves coffee to many people
   - Does the store care if the payment comes from a person who is NOT the Person
     issued the request for payment in Step 2?
 5. Store verifies the legitimacy of the posted phonon
-  - How does it verify the phonon originated from a valid card? not tampered?
-  - How does it verify the value of the phonon?
-  - How does it verify that the phonon can be consumed by the registered card?
+
+      ---- Questions ----
+    - How does vendor verify phonon is from valid card?
+
+    - How does vendor verify the value of the phonon?
+      @3: By leveraging phonon public key, currency type and currency value to
+          check on chain assets
+      @2: By verifying signature (must include phonon public key)
+
+    - How does vendor verify that the phonon can be consumed by the receiving card?
+      @2: By verifying signature (must include receiving card's public key,
+          and the cipher text)
+
+    - What prevents the card from withdrawing the same phonon more than once?
+      - @1: The cypher text requires the receiving card's private key to
+            decrypt, so it cannot be accessed outside of the applet
+      - @1: Encrypting the nonce with the private key binds them together.
+            While encrypted the nonce cannot be adjusted, and during decryption
+            the phonon is consumed and the card's nonce is incremented
+
+      ---- Data Packet Process ----
+      1. Sender's card encrypts:
+          - Phonon Private Key             
+          - Receipt nonce from vendor
+         using the public key of the receiving card,
+         then returns the cipher text
+
+      2. Sender's card signs across:
+          - Cipher text returned from step 1
+          - Phonon Public Key
+          - Receiving Card's Public Key
+
+      3. Sender compiles entire packet:
+          - Cipher text from Step 1
+          - Signature from Step 2
+          - Phonon Public Key
+          - Receiving Card's Public Key
+          - Sending Card's Public Key
+          - Currency Type of phonon
+          - Currency Value of phonon
 
 #### Stage 3: Collect Phonons
 5. Store's card connects to Store
