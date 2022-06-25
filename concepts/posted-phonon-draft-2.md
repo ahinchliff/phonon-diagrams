@@ -15,7 +15,7 @@ A "posted phonon" transfer packet must be:
 
 1. only consumable by the intended recipient
 2. only able to be consumed once
-3. verifiable by any party
+3. verifiable by a phonon card and any interested parties
 
 ## Potential Solution
 
@@ -34,7 +34,7 @@ A "posted phonon" transfer packet must be:
   - Currency type
   - Currency value
   - Metadata
-  - Private key encrypted with the Recipient's cards public key.
+  - Private key encrypted with the recipient's cards public key.
 - Message signed by the sender's card's private identity key containing:
   - Recipient's cards public key
   - Nonce
@@ -46,11 +46,14 @@ The phonon card will need the ability to:
 
 - construct a posted phonon transfer packet
 - consume a posted phonon transfer packet
+  - ensure packet comes from a vaid phonon card
+  - ensure nonce is valid
+  - add phonons to card
 - return its next valid nonce
 
 ### How are the requirements met?
 
-**How is a posted phonon transfer packet verifiable by any interested party?** It can be verified that the transfer packet was produced by a valid phonon card by checking 1) the sender's certificate is signed by a valid issuer 2) checking the signed message was produced by the public key listed in the sender's certificate. These checks can be conducted by any party with a list of known valid issuers. If these two checks are passed then it is guaranteed by the Phonon Protocol that the phonon transfer packet is valid and it contains the data it claims (recipient, nonce, phonons).
+**How is a posted phonon transfer packet verifiable by a phonon card and any interested parties?** It can be verified that the transfer packet was produced by a valid phonon card by checking 1) the sender's certificate is signed by a valid issuer 2) the signed message was produced by the public key listed in the sender's certificate. These checks can be conducted by any party with with knowledge of valid issuers, including phonon cards. If these two checks are passed then it is guaranteed by the Phonon Protocol that the phonon transfer packet is valid and it contains the data it claims (recipient, nonce, phonons).
 
 **How is a posted phonon transfer packet only consumable by the intended recipient?**
 The phonons (private keys) within the transfer packet are encrypted using the recipient's card's public key and therefore can only be decrypted by the recipient's card.
@@ -75,11 +78,12 @@ The above requirements have the potential for cards being unable to consume vali
 
 In the above example the funds from Sender A are lost forever. This could be avoided by not consuming the transfer packet from Sender B until the transfer packet from Sender A has been consumed. The issue is the recipient has no idea how long to wait or if the packet will ever be received.
 
-To overcome this it is essential that the sender and recipient agree on how long a nonce is valid for. This is outside the scope of the Phonon Protocol but whenever a nonce is issued a TTL should be provided.
+To overcome this it is essential that the sender and recipient agree on how long a nonce is valid for. This is outside the scope of the Phonon Protocol but whenever a nonce is issued a TTL should be provided. The example below
 
 **User A and User B want to buy from an online store.**
 
 1. User A sends an order request and the store responses with a nonce of 1 and a expiry date for that nonce
 2. User B sends an order request and the store responses with a once of 2 and an expiry date for that nonce
 3. User B creates a phonon transfer packet and posts it to the store over HTTP
-4. The store waits until the nonce it sent to User A expires. Once nonce A has expired the store is safe to consume User B's phonon transfer packet. The store's card consumes User B's phonon transfer packet and increments its nonce to 2.
+4. The store waits until the nonce it sent to User A expires.
+5. The store's card consumes User B's phonon transfer packet and increments its nonce to 2.
