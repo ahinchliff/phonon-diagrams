@@ -36,7 +36,7 @@ A "posted phonon" transfer packet must be:
   - Metadata
   - Private key encrypted with the recipient's cards public key.
 - Message signed by the sender's card's private identity key containing:
-  - Recipient's cards public key
+  - Recipient's card's public key
   - Nonce
   - Hash of the phonon collection
 
@@ -45,26 +45,39 @@ A "posted phonon" transfer packet must be:
 The phonon card will need the ability to:
 
 - construct a posted phonon transfer packet
+  - phonons are removed from card during construction
+  - ensure phonons cannot be re-added
 - consume a posted phonon transfer packet
-  - ensure packet comes from a vaid phonon card
-  - ensure nonce is valid
+  - ensure packet comes from a valid phonon card
+  - ensure packet has not been tampered (nonce is valid, collection unaltered)
   - add phonons to card
-- return its next valid nonce
+  - ensure phonons cannot be re-added
+- manage an internal integer nonce
+  - instantiate to zero
+  - be set after consumption of a posted phonon transfer packet
+  - return its next valid nonce
 
 ### How are the requirements met?
 
-**How is a posted phonon transfer packet verifiable by a phonon card and any interested parties?** It can be verified that the transfer packet was produced by a valid phonon card by checking 1) the sender's certificate is signed by a valid issuer 2) the signed message was produced by the public key listed in the sender's certificate. These checks can be conducted by any party with with knowledge of valid issuers, including phonon cards. If these two checks are passed then it is guaranteed by the Phonon Protocol that the phonon transfer packet is valid and it contains the data it claims (recipient, nonce, phonons).
+**How is a posted phonon transfer packet verifiable by a phonon card and any interested parties?**
+A phonon card or interested parties can verify that the transfer packet has not been tampered and was produced by a valid phonon card by
+  1) checking that the sender's certificate is signed by a valid issuer
+  2) checking that the signed message was produced by the public key listed in the sender's certificate.
+    - the nonce is in the packet
+    - the recipient's card's public key is in the packet
+    - the hash is derived from the phonon collection in the packet
+    - the sender's certificate is in the packet
+These checks can be conducted by any party with with knowledge of valid issuers, including phonon cards. If these checks are passed then it is guaranteed by the Phonon Protocol that the phonon transfer packet is valid and contains the data it claims (recipient, nonce, phonons).
 
 **How is a posted phonon transfer packet only consumable by the intended recipient?**
 The phonons (private keys) within the transfer packet are encrypted using the recipient's card's public key and therefore can only be decrypted by the recipient's card.
 
 **How is it enforced that a posted phonon transfer packet is only consumed once?**
-A transfer packet contains an integer nonce. When a transfer packet is successfully consumed the consuming card will set its internal nonce to match that of the successfully consumed transfer packet. A card will refuse to consume any transfer packets that have a nonce less than or equal to its internal nonce. It is the responsibility of a party external to the Phonon Protocol to coordinate the issuance of nonces.
+A transfer packet contains an integer nonce. When a transfer packet is successfully consumed, the consuming card will set its internal nonce to match the value of the nonce included in the the successfully consumed transfer packet. A card will refuse to consume any transfer packets that have a nonce less than or equal to its internal nonce. It is the responsibility of a party external to the Phonon Protocol to coordinate the issuance of nonces.
 
 ## Nonce issuance and consumption ordering
 
 To prevent certain attack vectors it is essential that phonon cards
-
 - can only consume phonon transfer packets with a nonce greater than its current internal nonce
 - are not required to consume nonces in consecutive order
 
