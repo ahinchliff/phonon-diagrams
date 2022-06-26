@@ -61,23 +61,25 @@ The phonon card will need the ability to:
 
 **How is a posted phonon transfer packet verifiable by a phonon card and any interested parties?**
 A phonon card or interested parties can verify that the transfer packet has not been tampered and was produced by a valid phonon card by
-  1) checking that the sender's certificate is signed by a valid issuer
-  2) checking that the signed message was produced by the public key listed in the sender's certificate.
-    - the nonce is in the packet
-    - the recipient's card's public key is in the packet
-    - the hash is derived from the phonon collection in the packet
-    - the sender's certificate is in the packet
+
+1. checking that the sender's certificate is signed by a valid issuer
+2. checking that the signed message was produced by the public key listed in the sender's certificate.
+   - the nonce is in the packet
+   - the recipient's card's public key is in the packet
+   - the hash is derived from the phonon collection in the packet
+
 These checks can be conducted by any party with with knowledge of valid issuers, including phonon cards. If these checks are passed then it is guaranteed by the Phonon Protocol that the phonon transfer packet is valid and contains the data it claims (recipient, nonce, phonons).
 
 **How is a posted phonon transfer packet only consumable by the intended recipient?**
 The phonons (private keys) within the transfer packet are encrypted using the recipient's card's public key and therefore can only be decrypted by the recipient's card.
 
 **How is it enforced that a posted phonon transfer packet is only consumed once?**
-A transfer packet contains an integer nonce. When a transfer packet is successfully consumed, the consuming card will set its internal nonce to match the value of the nonce included in the the successfully consumed transfer packet. A card will refuse to consume any transfer packets that have a nonce less than or equal to its internal nonce. It is the responsibility of a party external to the Phonon Protocol to coordinate the issuance of nonces.
+A transfer packet contains an integer nonce. When a transfer packet is successfully consumed, the consuming card will set its internal nonce to match the value of the nonce included in the successfully consumed transfer packet. A card will refuse to consume any transfer packets that have a nonce less than or equal to its internal nonce. It is the responsibility of a party external to the Phonon Protocol to coordinate the issuance of nonces.
 
 ## Nonce issuance and consumption ordering
 
 To prevent certain attack vectors it is essential that phonon cards
+
 - can only consume phonon transfer packets with a nonce greater than its current internal nonce
 - are not required to consume nonces in consecutive order
 
