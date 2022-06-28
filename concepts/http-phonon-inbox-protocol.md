@@ -1,9 +1,8 @@
 # HTTP Phonon Inbox Protocol (HPIP)
 
-A phonon inbox is a service that stores posted phonons for its users and optionally provides senders the details required to create a posted phonon for an intended recipient. The goal of this document is to begin describing a protocol that could be adapted by future phonon inboxes and phonon wallets to create a standard. In the same way that any email clients that implement SMTP, POP3 or IMAP can interact with any email providers that implement the same standards, it is hoped that HPIP can provide similar levels of flexibility and openness. Although posted phonons, and the data required to create and consume them, can be transmitted over any medium, HPIP focuses on transmission over HTTP.
+A phonon inbox is a service that stores posted phonons for its users and optionally provides senders the details required to create a posted phonon for an intended recipient. The goal of this document is to begin describing a protocol that could be adopted by future phonon inboxes and phonon wallets to create a standard. In the same way that any email clients that implement SMTP, POP3 or IMAP can interact with any email providers that implement the same standards, it is hoped that HPIP can provide similar levels of flexibility and openness. Although posted phonons, and the data required to create and consume them, can be transmitted over any medium, HPIP focuses on transmission over HTTP.
 
 The protocol includes has three pieces of functionality:
-Request a slot
 
 - The sender requesting from a phonon inbox the details required to created a posted phonon for a particular recipient
 - Post a phonon - The sender sending a posted phonon transfer packet to a phonon inbox
@@ -45,15 +44,23 @@ Request Body
 
 null
 
+## Sharing Phonon Inbox Details
+
+To recieve funds a recipient needs to share their "Request a slot" url with senders. This is not user friendly.
+
 ### Phonon Inbox Addresses
 
 [inbox]$[domain]
 
-examples: personal@hinchy.com, hinchy@phononinbox.com
+examples: personal$hinchy.com, hinchy$phononinbox.com
 
 A phonon inbox address identifies:
 
 - what domain should be used to lookup the "Request a slot" endpoint
 - the inbox (unique identifier for the recipient)
 
-A phonon wallet uses the domain section of the phonon inbox address to check the dns records for that domain. The TXT record "phononInboxRequestSlot" determines what url should be used call the "Request a slot" endpoint
+A phonon wallet uses the domain section of the phonon inbox address to check the DNS records for that domain. The TXT record "phononInboxRequestSlotUrl" determines what url should be used to call the "Request a slot" endpoint
+
+### ENS
+
+Similar to DNS, a user can add a record to their ENS name. A phonon wallet would attempt to look up this record if an ENS name is entered into the recipient input.
