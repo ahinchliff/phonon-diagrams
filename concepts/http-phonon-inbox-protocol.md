@@ -36,9 +36,10 @@ To create a posted phonon a sender requires the recipient’s public key and a v
 
 The user sends the created phonon transfer packet to the “postUrl” received from the “Request a slot” step.
 Request Body
-inbox - The unique identifier of the recipient
-packet - The phonon transfer packet
-data (optional) - string that can be used to pass data to service
+
+- inbox - The unique identifier of the recipient
+- packet - The phonon transfer packet
+- data (optional) - string that can be used to pass data to service
 
 #### Response Body
 
