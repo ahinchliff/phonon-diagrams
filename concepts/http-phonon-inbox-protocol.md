@@ -3,11 +3,11 @@
 A phonon inbox is a service that stores posted phonons for its users and optionally provides senders the details required to create a posted phonon for an intended recipient. The goal of this document is to begin describing a protocol that could be adapted by future phonon inboxes and phonon wallets to create a standard. In the same way that any email clients that implement SMTP, POP3 or IMAP can interact with any email providers that implement the same standards, it is hoped that HPIP can provide similar levels of flexibility and openness. Although posted phonons, and the data required to create and consume them, can be transmitted over any medium, HPIP focuses on transmission over HTTP.
 
 The protocol includes has three pieces of functionality:
-Request a slot
 
-- The sender requesting from a phonon inbox the details required to created a posted phonon for a particular recipient
-- Post a phonon - The sender sending a posted phonon transfer packet to a phonon inbox
-- Consume a phonon - The recipient requesting phonon transfer packets so they can be consumed
+
+- **Request a slot** The sender requesting from a phonon inbox the details required to created a posted phonon for a particular recipient
+- **Post a phonon** - The sender sending a posted phonon transfer packet to a phonon inbox
+- **Consume a phonon** - The recipient requesting phonon transfer packets so they can be consumed
 
 ## Endpoints
 
