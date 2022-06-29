@@ -1,13 +1,13 @@
 # HTTP Phonon Inbox Protocol (HPIP)
 
-A phonon inbox is a service that stores posted phonons for its users and optionally provides senders the details required to create a posted phonon for an intended recipient. The goal of this document is to begin describing a protocol that could be adopted by future phonon inboxes and phonon wallets to create a standard. In the same way that any email clients that implement SMTP, POP3 or IMAP can interact with any email providers that implement the same standards, it is hoped that HPIP can provide similar levels of flexibility and openness. Although posted phonons, and the data required to create and consume them, can be transmitted over any medium, HPIP focuses on transmission over HTTP.
+A **Phonon Inbox** is a service that manages the issuance, transfer and storage of *posted phonons*.  This document presents an http-based implementation of a Phonon Inbox, with the intent to discover and define a standard that governs all implementations (the data required to create and consume posted phonons can be transmitted over any medium, not just http).  Like how email clients can interact with email providers who use the same standards - no matter if they implement SMTP, POP3 or IMAP - this HPIP hopes to layout a standard that is flexible, open and makes it easy for developers to make tools that are interoperable and support the phonon network.
 
-The protocol includes has three pieces of functionality:
+The protocol includes three pieces of functionality:
 
-- The sender requesting from a phonon inbox the details required to created a posted phonon for a particular recipient
-- Post a phonon - The sender sending a posted phonon transfer packet to a phonon inbox
-- Consume a phonon - The recipient requesting phonon transfer packets so they can be consumed
-- Mark phonon as consumed - The recipient informs the inbox services that a phonon transfer packet has been successfully consumed.
+- **Request a Slot** - A sender requests the details required to create a posted phonon for a particular recipient from a phonon inbox
+- **Post a Phonon** - A sender sends a posted phonon transfer packet to a phonon inbox
+- **Consume a Phonon** - A recipient requests phonon transfer packets from a phonon inbox for consumption
+- **Mark phonon as consumed** - The recipient informs the inbox services that a phonon transfer packet has been successfully consumed.
 
 ## Endpoints
 
@@ -19,9 +19,18 @@ To create a posted phonon a sender requires the recipient’s public key and a v
 
 #### Request Body
 
-- inbox - The unique identifier of the recipient
-- cert (optional) - The sender’s phonon’s card’s cert including the phonon card’s public key
-- id (optional) - The phonon inbox’s domain signed with the phonon card’s public key
+- inbox:
+  -  The unique identifier of the recipient
+- sender card certifications (optional):
+  - The sender’s phonon card’s cert
+  - The sender's phonon card’s public key
+  - A signature that proves sender owns phonon card’s public key
+- sender id (optional):
+  - The unique identifier of the sender
+    - *Example*: The phonon inbox’s domain signed by sender's phonon card’s key
+- memo (optional):
+  - Information the inbox can use to screen or relay sender requests
+    - *Example*: Burner code issued to sender to be permitted a response
 
 #### Response Body
 
