@@ -7,6 +7,7 @@ The protocol includes has three pieces of functionality:
 - The sender requesting from a phonon inbox the details required to created a posted phonon for a particular recipient
 - Post a phonon - The sender sending a posted phonon transfer packet to a phonon inbox
 - Consume a phonon - The recipient requesting phonon transfer packets so they can be consumed
+- Mark phonon as consumed - The recipient informs the inbox services that a phonon transfer packet has been successfully consumed.
 
 ## Endpoints
 
@@ -43,6 +44,16 @@ Request Body
 #### Response Body
 
 null
+
+### Consume a Phonon (POST)
+
+The recipient requests the next phonon transfer packet to be consumed. The inbox will only return a phonon if all lower nonces have been consumed or their ttl have expired.
+
+// Todo - Request and body
+
+### Mark phonon as consumed (POST)
+
+// Todo - Request and body
 
 ## Sharing Phonon Inbox Details
 
