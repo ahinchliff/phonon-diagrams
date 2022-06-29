@@ -58,3 +58,7 @@ The US Gov wants to issue phonon tokens representing a million dollars. To enabl
 The US Gov calls `mintPhononTokens` with their private key and a value of `10000000000`. The post the returned proof to a public directory.
 
 The US Gov wants to pay 100 pUSD Senor for some work he has done. They call `sendPhononTokens` with a value of `1000000` after pairing with Senor's phonon card. The US Gov's pUSD balance is reduced by `1000000` and a phonon transfer packet is created with a value of `1000000` pUSD. Senor's card receives payment and his app searches a public registry for the token details. It finds the token name and decimal information is able to correctly display his new balance of 100 pUSD.
+
+## Questions
+
+1. Should `mintPhononTokens` take a signed message with a nonce rather than a private key? This add extra flexibility and possibly security.
