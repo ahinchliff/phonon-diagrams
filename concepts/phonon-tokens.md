@@ -4,8 +4,8 @@
 
 - **Native Phonon** - A phonon that is mined on a phonon card.
 - **Backed Phonon** - A phonon that is created and then assigned a value. The Phonon Protocol has no concept of how the value is derived.
-- **Eccumbering Phonon** - A phonon thats key pair encumbers something of value.
-- **Attested Phonon** - A phonon that derives its value from an authority assigning it legitimacy and traits. Similar to the US Gov backing USD notes and coins.
+  - **Eccumbering Phonon** - A phonon thats key pair encumbers something of value.
+  - **Attested Phonon** - A phonon that derives its value from an authority assigning it legitimacy and traits. Similar to the US Gov backing USD notes and coins.
 
 ## Problem
 
@@ -19,9 +19,9 @@ To design a way in which attested phonons can be combined and divided to allow f
 
 The concept of a "Phonon Token" would be introduced to the phonon applet. A phonon token is not a key pair and no part of it is ever "sent" to other phonon cards. It is a data structure that includes an issuer public key as an identifier and a "balance" property that can be altered.
 
-### Creation
+### Mint
 
-Anyone can mint "Phonon Tokens” by calling `createPhononTokens` with a private key and a value. The phonon applet will derive the tokenId from the private key. If the card is tracking a "phonon token" with that tokenId it will increase the balance by the value argument. If not, the applet will create a new data structure setting the tokenId to the public key and the balance to the value argument.
+Anyone can mint "Phonon Tokens” by calling `mintPhononTokens` with a private key and a value. The phonon applet will derive the tokenId from the private key. If the card is tracking a "phonon token" with that tokenId it will increase the balance by the value argument. If not, the applet will create a new data structure setting the tokenId to the public key and the balance to the value argument. `mintPhononTokens` will return a proof that the minting process has occured.
 
 ### Sending
 
@@ -29,7 +29,11 @@ Anyone can mint "Phonon Tokens” by calling `createPhononTokens` with a private
 
 ### Consumption
 
-`consumePhononToken` is called with the transfer packet. The recipient's balance is adjusted in the same way as during the creation step.
+`consumePhononToken` is called with the transfer packet. The recipient's balance is adjusted in the same way as during the minting step.
+
+### Burning
+
+A holder of the private key used to derive a tokenId can call `burnPhononTokens` with the private key and a value. The phonon applet will reduce the card's token balance by the supplied value argument. `burnPhononTokens` will return a proof that the burn process has occured.
 
 ### Data Structures
 
@@ -51,4 +55,10 @@ The US Gov wants to issue phonon tokens representing a million dollars. To enabl
 - token Name: pUSD
 - decimals: 4
 
-The US Gov wants to pay 100 pUSD Senor for some work he has done. They call `sendPhononTokens` with a value of 1000000 after pairing with Senor's phonon card. The US Gov's pUSD balance is reduced by 100 and a phonon transfer packet is created with a value of 100 pUSD. Senor's card receives payment and his app searches a public registry for the token details. It finds the token name and decimal information is able to correctly display his new balance.
+The US Gov calls `mintPhononTokens` with their private key and a value of `10000000000`. The post the returned proof to a public directory.
+
+The US Gov wants to pay 100 pUSD Senor for some work he has done. They call `sendPhononTokens` with a value of `1000000` after pairing with Senor's phonon card. The US Gov's pUSD balance is reduced by `1000000` and a phonon transfer packet is created with a value of `1000000` pUSD. Senor's card receives payment and his app searches a public registry for the token details. It finds the token name and decimal information is able to correctly display his new balance of 100 pUSD.
+
+## Questions
+
+1. Should `mintPhononTokens` take a signed message with a nonce rather than a private key? This add extra flexibility and possibly security.
