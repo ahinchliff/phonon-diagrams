@@ -26,8 +26,9 @@ Process Flow Steps
   2. Call `activate` and select card
   3. Call `unlock` as input password `111111`
   4. Call `createSpecial`
-  5. Input `privateKey` hex and `value`
-  6. Phonon is created
+  5. Select `Branded`
+  6. Input `privateKey` hex and `value`
+  7. Phonon is created
 
 Summary of Technical Changes:
   1. Added `Branded` as new `CurrencyType` -> 5
