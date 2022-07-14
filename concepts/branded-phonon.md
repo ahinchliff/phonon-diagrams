@@ -1,14 +1,15 @@
 # Branded Phonons: *immutably marked by their creator*
 How do you tell apart a Tesla from a Honda Civic? Do you question the provenance of a $20 bill? How do ranchers find their cows after getting mixed with their neighbors', following the destruction of barbed wire fences in a winter storm?
 
-Brands (symbols, trademarks, distinctive images, ornamental patterns burned into skin) are used to build trust, protect identity, form collections and organize like things.
+Brands (symbols, trademarks, distinctive images, ornamental patterns burned into skin) are used to build trust, protect identity, form collections and organize concepts, ideas, substances. properties and relations.  
 
-Like a cow branded at birth, *Branded Phonons* are marked by their creators upon creation with a stamp that cannot be faked or changed. It gives anyone who receives that phonon the trust and guarantee it was created by that creator.
+Like a cow branded at birth, *Branded Phonons* are marked by their creators upon issuance conforming to a unique stamp that is immutable and therefore cannot be falsified. It gives anyone who receives that phonon the trust and guarantee that such asset it was created by that creator.
 
 ## The Problem
 There is no way to prove who created a phonon.  For phonons that are linked to blockchain based assets this not a problem (in fact it's a feature).  But there are use cases where proving provenance of a phonon can add value.  
   - a music venue may want to use phonons to grant recipients of those phonons access to an upcoming show
   - the United States Federal Reserve could guarantee the value of phonons they create
+
 
 ## Solution
 
