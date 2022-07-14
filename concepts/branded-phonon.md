@@ -13,7 +13,7 @@ There is no way to prove who created a phonon.  For phonons that are linked to b
 ## Solution
 
 Introduce a new class of phonons called **Branded Phonons**.
-  - They are attested by the issuer/authority at creation. Accomplished by having the creator pass a private key at creation, whose public key is deduced by the card and tagged to the phonon.
+  - They are attested by the issuer/authority at creation. Accomplished by having the creator pass a private key at creation, whose public key is derived by the card and tagged to the phonon.
   - Their value is instantiated at creation by the issuer, and thereafter not directly editable.
 
 ## Implementation Details
